@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THIS-THAT Game</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./logo.png">
+    <link rel="shortcut icon" type="image/png" href="./logo.png">
+    <link rel="apple-touch-icon" href="./logo.png">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="لعبة THIS-THAT - اختبر مهاراتك في لعبة تفاعلية ممتعة">
+    <meta name="keywords" content="لعبة, THIS-THAT, ألعاب, تفاعلية">
+    <meta name="author" content="THIS-THAT Game">
+    
+    <!-- Open Graph Meta Tags (Facebook, WhatsApp, etc.) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="THIS-THAT Game - لعبة ممتعة وتفاعلية">
+    <meta property="og:description" content="لعبة THIS-THAT - اختبر مهاراتك في لعبة تفاعلية ممتعة مع تصميم حديث">
+    <meta property="og:image" content="./logo.png">
+    <meta property="og:url" content="">
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="THIS-THAT Game">
+    <meta name="twitter:description" content="لعبة THIS-THAT - اختبر مهاراتك في لعبة تفاعلية ممتعة">
+    <meta name="twitter:image" content="./logo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-primary: #1e293b;
+            --bg-secondary: #0f172a;
+            --text-primary: #2d3748;
+            --accent-color: #4ade80;
+            --accent-dark: #22c55e;
+            --border-color: #3d4b5f;
+            --header-bg: #1e293b;
+            --header-border: #4ade80;
+            --title-color: #4ade80;
+            --counter-color: #4ade80;
+        }
+        
+        body.light-mode {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #333333;
+            --accent-color: #ec4899;
+            --accent-dark: #db2777;
+            --border-color: #fbbf24;
+            --header-bg: #ffffff;
+            --header-border: #ec4899;
+            --title-color: #ec4899;
+            --counter-color: #ec4899;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.3s ease;
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: var(--header-bg);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-bottom: 3px solid var(--header-border);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .header-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--title-color);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            position: absolute;
+            right: 30px;
+        }
+        
+        .header-btn {
+            width: 45px;
+            height: 45px;
+            border: 2px solid var(--accent-color);
+            background: transparent;
+            color: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #themeToggle {
+            width: 50px;
+            height: 50px;
+            border: none !important;
+            background: transparent !important;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #themeToggle img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        #themeToggle:hover {
+            transform: scale(1.15) !important;
+        }
+        
+        .github-link {
+            width: 50px;
+            height: 50px;
+            border: none !important;
+            background: transparent !important;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        
+        .github-link img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .github-link:hover {
+            transform: scale(1.15);
+        }
+        
+        .header-btn:hover {
+            background: var(--accent-color);
+            color: var(--text-primary);
+            transform: scale(1.1);
+        }
+        
+        /* Main Container */
+        .container {
+            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        
+        .game-button {
+            position: relative;
+            width: 500px;
+            height: 140px;
+            border-radius: 70px;
+            border: 8px solid var(--border-color);
+            background: var(--border-color);
+            cursor: pointer;
+            overflow: hidden;
+            transition: transform 0.2s;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .game-button:hover {
+            transform: scale(1.02);
+        }
+        
+        .game-button:active {
+            transform: scale(0.98);
+        }
+        
+        .button-slider {
+            position: absolute;
+            top: 0;
+            width: 280px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
+            border-radius: 70px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        .button-slider.THIS {
+            left: 0;
+        }
+        
+        .button-slider.THAT {
+            left: calc(100% - 280px);
+        }
+        
+        .button-text {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            user-select: none;
+        }
+        
+        body.light-mode .button-text {
+            color: #fbbf24;
+        }
+        
+        .counter-section {
+            margin-top: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .counter-label {
+            font-size: 3rem;
+            color: var(--counter-color);
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: color 0.3s ease;
+        }
+        
+        .counter-value {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--counter-color);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            min-width: 150px;
+            transition: color 0.3s ease;
+        }
+        
+        .reset-button {
+            margin-top: 50px;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+        }
+        
+        .reset-button:hover {
+            background: var(--accent-color);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .reset-button:active {
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 600px) {
+            .header {
+                flex-wrap: wrap;
+                gap: 15px;
+                padding: 10px 15px;
+                justify-content: center;
+            }
+            
+            .header-right {
+                position: static;
+                width: 100%;
+                justify-content: center;
+                gap: 10px;
+            }
+            
+            .header-title {
+                font-size: 1.5rem;
+            }
+            
+            .game-button {
+                width: 90vw;
+                max-width: 400px;
+                height: 120px;
+                border-radius: 60px;
+            }
+            
+            .button-slider {
+                width: 50%;
+                border-radius: 60px;
+            }
+            
+            .button-slider.THAT {
+                left: 50%;
+            }
+            
+            .button-text {
+                font-size: 2.5rem;
+            }
+            
+            .counter-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .counter-label {
+                font-size: 2rem;
+            }
+            
+            .counter-value {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <div class="header-title">THIS-THAT</div>
+        </div>
+        <div class="header-right">
+            <button class="header-btn" id="themeToggle" title="تبديل الوضع">
+                <img class="night-icon" src="./night.svg" alt="Night Mode" />
+                <img class="light-icon" src="./light.svg" alt="Light Mode" style="display: none;" />
+            </button>
+            <a class="github-link" id="githubLink" href="https://github.com" target="_blank" title="GitHub">
+                <img class="night-github-icon" src="./night_github.svg" alt="GitHub Night" />
+                <img class="light-github-icon" src="./light_github.svg" alt="GitHub Light" style="display: none;" />
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Game Container -->
+    <div class="container">
+        <div class="game-button" id="gameButton">
+            <div class="button-slider THIS" id="buttonSlider">
+                <span class="button-text" id="buttonText">THIS</span>
+            </div>
+        </div>
+        
+        <div class="counter-section">
+            <div class="counter-value" id="counter">0</div>
+            <div class="counter-label">: COUNTER</div>
+        </div>
+    </div>
+
+    <script>
+        let isTHIS = true;
+        let count = 0;
+        
+        const gameButton = document.getElementById('gameButton');
+        const buttonSlider = document.getElementById('buttonSlider');
+        const buttonText = document.getElementById('buttonText');
+        const counter = document.getElementById('counter');
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Theme Toggle
+        themeToggle.addEventListener('click', function() {
+            body.classList.toggle('light-mode');
+            
+            const nightIcon = themeToggle.querySelector('.night-icon');
+            const lightIcon = themeToggle.querySelector('.light-icon');
+            const nightGithub = document.querySelector('.night-github-icon');
+            const lightGithub = document.querySelector('.light-github-icon');
+            
+            if (body.classList.contains('light-mode')) {
+                nightIcon.style.display = 'none';
+                lightIcon.style.display = 'block';
+                nightGithub.style.display = 'none';
+                lightGithub.style.display = 'block';
+                localStorage.setItem('theme', 'light-mode');
+            } else {
+                nightIcon.style.display = 'block';
+                lightIcon.style.display = 'none';
+                nightGithub.style.display = 'block';
+                lightGithub.style.display = 'none';
+                localStorage.setItem('theme', 'dark-mode');
+            }
+        });
+        
+        // Get saved theme from localStorage
+        const savedTheme = localStorage.getItem('theme') || 'dark-mode';
+        const nightIcon = themeToggle.querySelector('.night-icon');
+        const lightIcon = themeToggle.querySelector('.light-icon');
+        const nightGithub = document.querySelector('.night-github-icon');
+        const lightGithub = document.querySelector('.light-github-icon');
+        
+        if (savedTheme === 'light-mode') {
+            body.classList.add('light-mode');
+            nightIcon.style.display = 'none';
+            lightIcon.style.display = 'block';
+            nightGithub.style.display = 'none';
+            lightGithub.style.display = 'block';
+        } else {
+            nightIcon.style.display = 'block';
+            lightIcon.style.display = 'none';
+            nightGithub.style.display = 'block';
+            lightGithub.style.display = 'none';
+        }
+        
+        // Game Button Click Handler
+        gameButton.addEventListener('click', function() {
+            isTHIS = !isTHIS;
+            count++;
+            
+            if (isTHIS) {
+                buttonSlider.className = 'button-slider THIS';
+                buttonText.textContent = 'THIS';
+            } else {
+                buttonSlider.className = 'button-slider THAT';
+                buttonText.textContent = 'THAT';
+            }
+            
+            counter.textContent = count;
+        });
+    </script>
+</body>
+</html>
