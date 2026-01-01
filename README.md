@@ -1,2 +1,2 @@
 
-<h3 align="center">THIS-THAT GAME</h3>
+<h1 align="center">THIS-THAT GAME</h1>
